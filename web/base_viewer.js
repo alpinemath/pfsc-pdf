@@ -143,6 +143,12 @@ class BaseViewer {
     }
     this._name = this.constructor.name;
 
+    // We make the PDFPageView constructor available.
+    // Proofscape ISE uses this.
+    this.makeAvailable = {
+      PDFPageView,
+    };
+
     this.container = options.container;
     this.viewer = options.viewer || options.container.firstElementChild;
     this.eventBus = options.eventBus || getGlobalEventBus();
