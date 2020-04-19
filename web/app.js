@@ -1401,9 +1401,11 @@ const PDFViewerApplication = {
    */
   _initializePdfHistory({ fingerprint, viewOnLoad, initialDest = null }) {
     if (AppOptions.get("disableHistory") || this.isViewerEmbedded) {
-      // The browsing history is only enabled when the viewer is standalone,
-      // i.e. not when it is embedded in a web page.
-      return;
+      // Mozilla pdfjs disables the browsing history in this case, i.e.
+      // when the viewer is embedded in a page, by putting a `return`
+      // statement here. We do not do that, since we want the browsing
+      // history to be enabled even while our pdf viewers are embedded
+      // in iframes in the Proofscape ISE.
     }
     this.pdfHistory.initialize({
       fingerprint,
