@@ -559,6 +559,7 @@ class PDFPageView {
 
     const viewport = this.viewport;
     const canvas = document.createElement("canvas");
+    canvas.classList.add(this.renderingId);
     this.l10n
       .get("page_canvas", { page: this.id }, "Page {{page}}")
       .then(msg => {
