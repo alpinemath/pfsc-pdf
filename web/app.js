@@ -401,6 +401,7 @@ const PDFViewerApplication = {
     this.pdfHistory = new PDFHistory({
       linkService: pdfLinkService,
       eventBus,
+      local: true,
     });
     pdfLinkService.setHistory(this.pdfHistory);
 
