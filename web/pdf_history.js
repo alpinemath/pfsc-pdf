@@ -59,6 +59,27 @@ class LocalHistory {
     this.eventBus = eventBus;
     this.history = [];
     this.ptr = null;
+    this.navEnableHandlers = [];
+  }
+
+  addNavEnableHandler(callback) {
+    this.navEnableHandlers.push(callback);
+  }
+
+  publishNavEnable() {
+    const b = this.canGoBackward();
+    const f = this.canGoForward();
+    this.navEnableHandlers.forEach(cb => {
+      cb(b, f);
+    });
+  }
+
+  canGoBackward() {
+    return this.ptr !== null && this.ptr > 0;
+  }
+
+  canGoForward() {
+    return this.ptr !== null && this.ptr < this.length - 1;
   }
 
   get state() {
@@ -70,25 +91,21 @@ class LocalHistory {
   }
 
   back() {
-    if (this.ptr === null) {
-      return;
-    }
-    if (this.ptr <= 0) {
+    if (!this.canGoBackward()) {
       return;
     }
     this.ptr--;
     this.eventBus.dispatch("localpopstate", { state: this.state });
+    this.publishNavEnable();
   }
 
   forward() {
-    if (this.ptr === null) {
-      return;
-    }
-    if (this.ptr >= this.length - 1) {
+    if (!this.canGoForward()) {
       return;
     }
     this.ptr++;
     this.eventBus.dispatch("localpopstate", { state: this.state });
+    this.publishNavEnable();
   }
 
   replaceState(newState, title, newUrl) {
@@ -108,6 +125,7 @@ class LocalHistory {
       this.history.splice(this.ptr);
     }
     this.history.push(newState);
+    this.publishNavEnable();
   }
 }
 
@@ -241,6 +259,10 @@ class PDFHistory {
     }
     this._initialBookmark = null;
     this._initialRotation = null;
+  }
+
+  get history() {
+    return this._history;
   }
 
   /**
