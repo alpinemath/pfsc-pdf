@@ -31,6 +31,7 @@ const UPDATE_VIEWAREA_TIMEOUT = 1000; // milliseconds
  * @typedef {Object} PDFHistoryOptions
  * @property {IPDFLinkService} linkService - The navigation/linking service.
  * @property {EventBus} eventBus - The application event bus.
+ * @property {boolean} local - Use a LocalHistory instead of window.history.
  */
 
 /**
@@ -53,14 +54,73 @@ function getCurrentHash() {
   return document.location.hash;
 }
 
+class LocalHistory {
+  constructor(eventBus) {
+    this.eventBus = eventBus;
+    this.history = [];
+    this.ptr = null;
+  }
+
+  get state() {
+    return this.ptr === null ? null : this.history[this.ptr];
+  }
+
+  get length() {
+    return this.history.length;
+  }
+
+  back() {
+    if (this.ptr === null) {
+      return;
+    }
+    if (this.ptr <= 0) {
+      return;
+    }
+    this.ptr--;
+    this.eventBus.dispatch("localpopstate", { state: this.state });
+  }
+
+  forward() {
+    if (this.ptr === null) {
+      return;
+    }
+    if (this.ptr >= this.length - 1) {
+      return;
+    }
+    this.ptr++;
+    this.eventBus.dispatch("localpopstate", { state: this.state });
+  }
+
+  replaceState(newState, title, newUrl) {
+    if (this.ptr === null) {
+      this.history.push(newState);
+      this.ptr = 0;
+    } else {
+      this.history[this.ptr] = newState;
+    }
+  }
+
+  pushState(newState, title, newUrl) {
+    if (this.ptr === null) {
+      this.ptr = 0;
+    } else {
+      this.ptr++;
+      this.history.splice(this.ptr);
+    }
+    this.history.push(newState);
+  }
+}
+
 class PDFHistory {
   /**
    * @param {PDFHistoryOptions} options
    */
-  constructor({ linkService, eventBus }) {
+  constructor({ linkService, eventBus, local }) {
     this.linkService = linkService;
     this.eventBus = eventBus || getGlobalEventBus();
+    this._local = local;
 
+    this._history = local ? new LocalHistory(eventBus) : window.history;
     this._initialized = false;
     this._fingerprint = "";
     this.reset();
@@ -106,7 +166,7 @@ class PDFHistory {
 
     this._initialized = true;
     this._bindEvents();
-    const state = window.history.state;
+    const state = this._history.state;
 
     this._popStateInProgress = false;
     this._blockHashChange = 0;
@@ -288,9 +348,9 @@ class PDFHistory {
     if (!this._initialized || this._popStateInProgress) {
       return;
     }
-    const state = window.history.state;
+    const state = this._history.state;
     if (this._isValidState(state) && state.uid > 0) {
-      window.history.back();
+      this._history.back();
     }
   }
 
@@ -302,9 +362,9 @@ class PDFHistory {
     if (!this._initialized || this._popStateInProgress) {
       return;
     }
-    const state = window.history.state;
+    const state = this._history.state;
     if (this._isValidState(state) && state.uid < this._maxUid) {
-      window.history.forward();
+      this._history.forward();
     }
   }
 
@@ -341,11 +401,11 @@ class PDFHistory {
     if (
       typeof PDFJSDev !== "undefined" &&
       PDFJSDev.test("CHROME") &&
-      window.history.state &&
-      window.history.state.chromecomState
+      this._history.state &&
+      this._history.state.chromecomState
     ) {
       // history.state.chromecomState is managed by chromecom.js.
-      newState.chromecomState = window.history.state.chromecomState;
+      newState.chromecomState = this._history.state.chromecomState;
     }
     this._updateInternalState(destination, newState.uid);
 
@@ -358,10 +418,10 @@ class PDFHistory {
       }
     }
     if (shouldReplace) {
-      window.history.replaceState(newState, "", newUrl);
+      this._history.replaceState(newState, "", newUrl);
     } else {
       this._maxUid = this._uid;
-      window.history.pushState(newState, "", newUrl);
+      this._history.pushState(newState, "", newUrl);
     }
 
     if (
@@ -685,7 +745,11 @@ class PDFHistory {
     };
 
     this.eventBus.on("updateviewarea", this._boundEvents.updateViewarea);
-    window.addEventListener("popstate", this._boundEvents.popState);
+    if (this._local) {
+      this.eventBus.on("localpopstate", this._boundEvents.popState);
+    } else {
+      window.addEventListener("popstate", this._boundEvents.popState);
+    }
     window.addEventListener("pagehide", this._boundEvents.pageHide);
   }
 
@@ -697,7 +761,11 @@ class PDFHistory {
       return; // The event listeners were already removed.
     }
     this.eventBus.off("updateviewarea", this._boundEvents.updateViewarea);
-    window.removeEventListener("popstate", this._boundEvents.popState);
+    if (this._local) {
+      this.eventBus.off("localpopstate", this._boundEvents.popState);
+    } else {
+      window.removeEventListener("popstate", this._boundEvents.popState);
+    }
     window.removeEventListener("pagehide", this._boundEvents.pageHide);
 
     this._boundEvents = null;
