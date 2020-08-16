@@ -26,6 +26,8 @@ const HASH_CHANGE_TIMEOUT = 1000; // milliseconds
 const POSITION_UPDATED_THRESHOLD = 50;
 // Heuristic value used when adding a temporary position to the browser history.
 const UPDATE_VIEWAREA_TIMEOUT = 1000; // milliseconds
+// Maximum number of history states that will be stored by a LocalHistory.
+const MAX_LOCAL_HISTORY_STATES = 25;
 
 /**
  * @typedef {Object} PDFHistoryOptions
@@ -54,6 +56,40 @@ function getCurrentHash() {
   return document.location.hash;
 }
 
+/**
+ * Suppose you have an array of length n, and a pointer p into that
+ * array. You must trim the array down to be of length at most m.
+ * You want to retain approximately the same number of entries both
+ * before and after p (approximate since m - 1 may be odd), but if
+ * that is impossible you will take what you can get. This function
+ * computes the right starting index for the desired slice.
+ * @param m {number} max acceptable length for array
+ * @param n {number} actual length of array
+ * @param p {number} pointer into array
+ * @returns {number} start index for slice
+ */
+function balancedTrimStartIndex(m, n, p) {
+  if (n <= m) {
+    return 0;
+  }
+  // Desired number of places before and after ptr:
+  const B = Math.ceil((m - 1) / 2);
+  const F = Math.floor((m - 1) / 2);
+  // Available number of places before and after ptr:
+  const b = p;
+  const f = n - (p + 1);
+  // Determine start index i0.
+  let i0;
+  if (b >= B && f >= F) {
+    i0 = p - B;
+  } else if (b < B) {
+    i0 = 0;
+  } else {
+    i0 = n - m;
+  }
+  return i0;
+}
+
 class LocalHistory {
   constructor(eventBus) {
     this.eventBus = eventBus;
@@ -63,6 +99,12 @@ class LocalHistory {
   }
 
   defineHistory(states, ptr) {
+    // If the given states array is too long, trim it.
+    if (states.length > MAX_LOCAL_HISTORY_STATES) {
+      const m = MAX_LOCAL_HISTORY_STATES;
+      const i0 = balancedTrimStartIndex(m, states.length, ptr);
+      states = states.slice(i0, i0 + m);
+    }
     this.history = states;
     this.ptr = ptr;
     this.publishNavEnable();
@@ -98,6 +140,10 @@ class LocalHistory {
 
   get state() {
     return this.ptr === null ? null : this.history[this.ptr];
+  }
+
+  get latest() {
+    return this.ptr === null ? null : this.history[this.length - 1];
   }
 
   get length() {
@@ -139,6 +185,14 @@ class LocalHistory {
       this.history.splice(this.ptr);
     }
     this.history.push(newState);
+
+    while (this.length > MAX_LOCAL_HISTORY_STATES) {
+      this.history.shift();
+      if (this.ptr > 0) {
+        this.ptr--;
+      }
+    }
+
     this.publishNavEnable();
   }
 }
@@ -234,7 +288,13 @@ class PDFHistory {
       state.uid,
       /* removeTemporary = */ true
     );
-    this._maxUid = this._history.length - 1;
+    if (this._local) {
+      // Because we use left-shifts to keep the history array from exceeding
+      // max length, max uid isn't always equal to the history length minus 1.
+      this._maxUid = this._history.latest.uid;
+    } else if (this._uid > this._maxUid) {
+      this._maxUid = this._uid;
+    }
 
     if (destination.rotation !== undefined) {
       this._initialRotation = destination.rotation;
