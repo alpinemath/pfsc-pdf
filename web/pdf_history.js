@@ -68,6 +68,13 @@ class LocalHistory {
     this.publishNavEnable();
   }
 
+  describeHistory() {
+    return {
+      states: this.history,
+      ptr: this.ptr,
+    };
+  }
+
   addNavEnableHandler(callback) {
     this.navEnableHandlers.push(callback);
   }
@@ -75,8 +82,9 @@ class LocalHistory {
   publishNavEnable() {
     const b = this.canGoBackward();
     const f = this.canGoForward();
+    const h = this.describeHistory();
     this.navEnableHandlers.forEach(cb => {
-      cb(b, f);
+      cb(b, f, h);
     });
   }
 
