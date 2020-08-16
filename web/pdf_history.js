@@ -62,6 +62,12 @@ class LocalHistory {
     this.navEnableHandlers = [];
   }
 
+  defineHistory(states, ptr) {
+    this.history = states;
+    this.ptr = ptr;
+    this.publishNavEnable();
+  }
+
   addNavEnableHandler(callback) {
     this.navEnableHandlers.push(callback);
   }
@@ -220,9 +226,7 @@ class PDFHistory {
       state.uid,
       /* removeTemporary = */ true
     );
-    if (this._uid > this._maxUid) {
-      this._maxUid = this._uid;
-    }
+    this._maxUid = this._history.length - 1;
 
     if (destination.rotation !== undefined) {
       this._initialRotation = destination.rotation;
@@ -263,6 +267,22 @@ class PDFHistory {
 
   get history() {
     return this._history;
+  }
+
+  /**
+   * Define the history by providing the array of states, and the current
+   * pointer.
+   * @param states: array of valid state objects
+   * @param ptr: integer pointing to current state in the array
+   * @param reinit: (bool) reinitialize
+   */
+  defineHistory(states, ptr, reinit) {
+    const lh = new LocalHistory(this.eventBus);
+    lh.defineHistory(states, ptr);
+    this._history = lh;
+    if (reinit) {
+      this.initialize({ fingerprint: this._fingerprint });
+    }
   }
 
   /**
