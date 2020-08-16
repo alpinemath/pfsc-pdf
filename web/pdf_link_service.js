@@ -427,7 +427,7 @@ function isValidExplicitDestination(dest) {
   let allowNull = true;
   switch (zoom.name) {
     case "XYZ":
-      if (destLength !== 5) {
+      if (destLength < 4) {
         return false;
       }
       break;
