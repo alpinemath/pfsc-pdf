@@ -126,7 +126,11 @@ class LocalHistory {
     const f = this.canGoForward();
     const h = this.describeHistory();
     this.navEnableHandlers.forEach(cb => {
-      cb(b, f, h);
+      cb({
+        back: b,
+        fwd: f,
+        history: h,
+      });
     });
   }
 
