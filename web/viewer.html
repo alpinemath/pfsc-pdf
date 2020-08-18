@@ -202,6 +202,10 @@ See https://github.com/adobe-type-tools/cmap-resources
           </div>
         </div>  <!-- secondaryToolbar -->
 
+        <div id="URLbar" class="hidden">
+          <input type="text" id="URL" class="toolbarField" title="URL" tabindex="20" placeholder="http://.......pdf">
+          <span id="sourceLink" class="toolbarLabel"><a class="external" target="_blank">Source</a></span>
+        </div>
         <div class="toolbar">
           <div id="toolbarContainer">
             <div id="toolbarViewer">
@@ -252,8 +256,6 @@ See https://github.com/adobe-type-tools/cmap-resources
                 </button>
               </div>
               <div id="toolbarViewerMiddle">
-                <input type="text" id="URL" class="toolbarField" title="URL" size="40" tabindex="20" placeholder="http://.......pdf">
-                <span id="sourceLink" class="toolbarLabel"></span>
                 <div class="splitToolbarButton">
                   <button id="zoomOut" class="toolbarButton zoomOut" title="Zoom Out" tabindex="21" data-l10n-id="zoom_out">
                     <span data-l10n-id="zoom_out_label">Zoom Out</span>

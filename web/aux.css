@@ -1,0 +1,37 @@
+
+#URLbar {
+  display: flex;
+}
+
+.themeLight #URLbar {
+  filter: invert(1);
+  background: #3e3e3e;
+}
+
+#URL {
+  flex-grow: 8;
+  margin-left: 6px;
+}
+
+.themeDark #URL {
+  color: #222;
+}
+
+#sourceLink {
+  flex-grow: 1;
+  margin-left: 6px;
+  filter: invert(1);
+}
+
+a.external {
+  color: blue;
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-image: url(images/ext_link.png);
+  padding-right: 14px;
+}
+
+.themeDark a.external {
+  color: rgb(113, 184, 239);
+  background-image: url(images/ext_link_dark.png);
+}
