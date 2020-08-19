@@ -35,3 +35,17 @@ a.external {
   color: rgb(113, 184, 239);
   background-image: url(images/ext_link_dark.png);
 }
+
+.largeLoadingIcon {
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: url('images/Spinner-1s-200px-dk.gif') center no-repeat;
+}
+
+.themeDark .largeLoadingIcon {
+  filter: invert(1);
+}
