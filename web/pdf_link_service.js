@@ -104,6 +104,8 @@ class PDFLinkService {
 
   /**
    * @param {string|Array} dest - The named, or explicit, PDF destination.
+   * @returns {Promise} Resolves when the navigation is complete (or an error
+   *                    is reached).
    */
   navigateTo(dest) {
     const goToDestination = ({ namedDest, explicitDest }) => {
@@ -117,7 +119,7 @@ class PDFLinkService {
         if (pageNumber === null) {
           // Fetch the page reference if it's not yet available. This could
           // only occur during loading, before all pages have been resolved.
-          this.pdfDocument
+          return this.pdfDocument
             .getPageIndex(destRef)
             .then(pageIndex => {
               this.cachePageRef(pageIndex + 1, destRef);
@@ -129,7 +131,6 @@ class PDFLinkService {
                   `a valid page reference, for dest="${dest}".`
               );
             });
-          return;
         }
       } else if (Number.isInteger(destRef)) {
         pageNumber = destRef + 1;
@@ -138,14 +139,14 @@ class PDFLinkService {
           `PDFLinkService.navigateTo: "${destRef}" is not ` +
             `a valid destination reference, for dest="${dest}".`
         );
-        return;
+        return Promise.resolve();
       }
       if (!pageNumber || pageNumber < 1 || pageNumber > this.pagesCount) {
         console.error(
           `PDFLinkService.navigateTo: "${pageNumber}" is not ` +
             `a valid page number, for dest="${dest}".`
         );
-        return;
+        return Promise.resolve();
       }
 
       if (this.pdfHistory) {
@@ -159,9 +160,11 @@ class PDFLinkService {
         pageNumber,
         destArray: explicitDest,
       });
+
+      return Promise.resolve();
     };
 
-    new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       if (typeof dest === "string") {
         this.pdfDocument.getDestination(dest).then(destArray => {
           resolve({
@@ -181,9 +184,9 @@ class PDFLinkService {
           `PDFLinkService.navigateTo: "${data.explicitDest}" is` +
             ` not a valid destination array, for dest="${dest}".`
         );
-        return;
+        return Promise.resolve();
       }
-      goToDestination(data);
+      return goToDestination(data);
     });
   }
 
@@ -214,6 +217,7 @@ class PDFLinkService {
 
   /**
    * @param {string} hash
+   * @returns {Promise} Resolves when the operation is complete.
    */
   setHash(hash) {
     let pageNumber, dest;
@@ -228,8 +232,7 @@ class PDFLinkService {
       }
       // borrowing syntax from "Parameters for Opening PDF Files"
       if ("nameddest" in params) {
-        this.navigateTo(params.nameddest);
-        return;
+        return this.navigateTo(params.nameddest);
       }
       if ("page" in params) {
         pageNumber = params.page | 0 || 1;
@@ -316,14 +319,14 @@ class PDFLinkService {
       } catch (ex) {}
 
       if (typeof dest === "string" || isValidExplicitDestination(dest)) {
-        this.navigateTo(dest);
-        return;
+        return this.navigateTo(dest);
       }
       console.error(
         `PDFLinkService.setHash: "${unescape(hash)}" is not ` +
           "a valid destination."
       );
     }
+    return Promise.resolve();
   }
 
   /**
