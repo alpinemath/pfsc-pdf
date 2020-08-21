@@ -1455,17 +1455,22 @@ const PDFViewerApplication = {
 
     setViewerModes(scrollMode, spreadMode);
 
+    let initialViewSetPromise = Promise.resolve();
     if (this.initialBookmark) {
       setRotation(this.initialRotation);
       delete this.initialRotation;
 
-      this.pdfLinkService.setHash(this.initialBookmark);
+      initialViewSetPromise = this.pdfLinkService.setHash(this.initialBookmark);
       this.initialBookmark = null;
     } else if (storedHash) {
       setRotation(rotation);
 
-      this.pdfLinkService.setHash(storedHash);
+      initialViewSetPromise = this.pdfLinkService.setHash(storedHash);
     }
+    const app = this;
+    initialViewSetPromise.then(() => {
+      app.eventBus.dispatch("initialviewset", { source: app });
+    });
 
     // Ensure that the correct page number is displayed in the UI,
     // even if the active page didn't change during document load.
