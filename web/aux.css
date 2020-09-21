@@ -49,3 +49,47 @@ a.external {
 .themeDark .largeLoadingIcon {
   filter: invert(1);
 }
+
+.themeDark #manualOpenInstructions {
+  filter: invert(1);
+}
+
+#manualOpenInstructions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+#manualOpenInstructions > div {
+  padding: 40px;
+  line-height: 1.6em;
+  font-size: x-large;
+  color: #ddd;
+}
+
+#manualOpenInstructions > div > p {
+  margin-bottom: 40px;
+}
+
+#manualOpenInstructions > div > p.footnote {
+  font-size: medium;
+}
+
+#manualOpenInstructions .button {
+  display: inline-block;
+  padding: 5px;
+  margin: 0px 2px;
+  border: 1px solid;
+  border-radius: 5px;
+  vertical-align: sub;
+  cursor: pointer;
+}
+
+#manualOpenInstructions .button:hover {
+  background: #333;
+}
