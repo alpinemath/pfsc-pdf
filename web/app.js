@@ -953,7 +953,11 @@ const PDFViewerApplication = {
       moreInfoButton.oncontextmenu = noContextMenuHandler;
       lessInfoButton.oncontextmenu = noContextMenuHandler;
       closeButton.oncontextmenu = noContextMenuHandler;
-      moreInfoButton.removeAttribute("hidden");
+      if (moreInfo === false) {
+        moreInfoButton.setAttribute("hidden", "true");
+      } else {
+        moreInfoButton.removeAttribute("hidden");
+      }
       lessInfoButton.setAttribute("hidden", "true");
       Promise.all(moreInfoText).then(parts => {
         errorMoreInfo.value = parts.join("\n");
