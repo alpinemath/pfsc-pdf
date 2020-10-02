@@ -23,16 +23,22 @@
   filter: invert(1);
 }
 
-a.external {
+a {
   color: blue;
+}
+
+a.external {
   background-position: center right;
   background-repeat: no-repeat;
   background-image: url(images/ext_link.png);
   padding-right: 14px;
 }
 
-.themeDark a.external {
+.themeDark a {
   color: rgb(113, 184, 239);
+}
+
+.themeDark a.external {
   background-image: url(images/ext_link_dark.png);
 }
 
