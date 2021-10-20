@@ -73,6 +73,7 @@ function getViewerConfiguration() {
       zoomIn: document.getElementById("zoomIn"),
       zoomOut: document.getElementById("zoomOut"),
       viewFind: document.getElementById("viewFind"),
+      copyFingerprint: document.getElementById("copyFingerprint"),
       openFile: document.getElementById("openFile"),
       print: document.getElementById("print"),
       presentationModeButton: document.getElementById("presentationMode"),

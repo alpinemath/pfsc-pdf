@@ -17,6 +17,7 @@
 import {
   animationStarted,
   AutoPrintRegExp,
+  copyTextWithMessageFlash,
   DEFAULT_SCALE_VALUE,
   getGlobalEventBus,
   getPDFFileNameFromURL,
@@ -475,6 +476,14 @@ const PDFViewerApplication = {
 
   run(config) {
     this.initialize(config).then(webViewerInitialized);
+  },
+
+  copyFingerprint(evt) {
+    const document = this.pdfViewer.pdfDocument;
+    if (document) {
+      const fp = document.fingerprint;
+      copyTextWithMessageFlash(fp, [16, 16], "Copied!");
+    }
   },
 
   zoomIn(ticks) {
@@ -1614,6 +1623,7 @@ const PDFViewerApplication = {
     eventBus.on("namedaction", webViewerNamedAction);
     eventBus.on("presentationmodechanged", webViewerPresentationModeChanged);
     eventBus.on("presentationmode", webViewerPresentationMode);
+    eventBus.on("copyFingerprint", webViewerCopyFingerprint);
     eventBus.on("openfile", webViewerOpenFile);
     eventBus.on("print", webViewerPrint);
     eventBus.on("download", webViewerDownload);
@@ -2193,6 +2203,9 @@ if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
 
 function webViewerPresentationMode() {
   PDFViewerApplication.requestPresentationMode();
+}
+function webViewerCopyFingerprint(evt) {
+  PDFViewerApplication.copyFingerprint(evt);
 }
 function webViewerOpenFile() {
   if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {

@@ -99,3 +99,40 @@ a.external {
 #manualOpenInstructions .button:hover {
   background: #333;
 }
+
+.toolbarButton.copyFingerprint::before,
+.secondaryToolbarButton.copyFingerprint::before {
+  content: url(images/toolbarButton-copyFingerprint.png);
+}
+
+@media screen and (min-resolution: 1.1dppx) {
+  /* For Retina screens. See corresponding block in viewer.css. */
+  .toolbarButton.copyFingerprint::before,
+  .secondaryToolbarButton.copyFingerprint::before {
+    content: url(images/toolbarButton-copyFingerprint@2x.png);
+  }
+
+}
+
+.briefNotice {
+  opacity: 1;
+  position: fixed;
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  border: 2px solid;
+  border-radius: 4px;
+  padding: 6px;
+  font-family: sans-serif;
+  background-color: white;
+  /* viewer.css uses some quite large z-indexes, including setting the toolbar
+   * at 9999, and we need to be higher than that. The largest it uses is 50000,
+   * so to ensure this notice is above everything, we go even higher than that.
+   */
+  z-index: 60000;
+}
+
+.themeDark .briefNotice {
+  /* We'll be inside an inverted element, so use opposite of colors we want: */
+  color: #525252;
+  background-color: #dddddd;
+}

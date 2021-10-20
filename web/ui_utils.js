@@ -937,6 +937,54 @@ function moveToEndOfArray(arr, condition) {
   }
 }
 
+function copyTextToClipboard(text) {
+    var box = document.createElement("textarea");
+    box.value = text;
+    box.style.opacity = 0;
+    document.body.appendChild(box);
+    box.focus();
+    box.select();
+    document.execCommand('copy');
+    box.remove();
+}
+
+/* Copy text to clipboard and flash a brief message at a given point.
+ * The default message is "Copied!".
+ *
+ * NB: This function was initially copied from the pfsc-ise util module, but
+ * has been customized to the pfsc-mozpdf use case; see comments in code below.
+ *
+ * param text: (str) the text to be copied to clipboard
+ * param pt: [x, y] coords where message should be displayed
+ * param message: (str) optional text of message. Default: "Copied!"
+ */
+function copyTextWithMessageFlash(text, pt, message) {
+  message = message || "Copied!";
+  const x = pt[0],
+    y = pt[1];
+  copyTextToClipboard(text);
+  // Display a brief notice saying "Copied!"
+  const note = document.createElement("div");
+  note.classList.add("briefNotice");
+  note.innerText = message;
+  // Place it at a slight offset from the mouse cursor.
+  note.style.left = x + "px";
+  note.style.top = y + "px";
+  // In the Proofscape ISE, PDF viewers are always opened inside a div
+  // of id "outerContainer". That is also the element where the theme
+  // class (light or dark) is set, so we need to add the message there
+  // (not just to the body), so that the theme class takes effect.
+  document.getElementById("outerContainer").appendChild(note);
+  // Wait a moment to initiate fade-out.
+  setTimeout(function() {
+    note.style.opacity = 0;
+  }, 400);
+  // After fade-out, remove the element.
+  setTimeout(function() {
+    note.remove();
+  }, 1000);
+}
+
 export {
   AutoPrintRegExp,
   CSS_UNITS,
@@ -979,4 +1027,6 @@ export {
   WaitOnType,
   waitOnEventOrTimeout,
   moveToEndOfArray,
+  copyTextToClipboard,
+  copyTextWithMessageFlash,
 };
