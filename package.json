@@ -68,11 +68,12 @@
     "yargs": "^17.6.0"
   },
   "scripts": {
+    "build": "gulp generic",
     "test": "env SKIP_BABEL=true gulp npm-test"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mozilla/pdf.js.git"
+    "url": "https://github.com/proofscape/pfsc-pdf.git"
   },
   "license": "Apache-2.0",
   "dependencies": {
