@@ -1,6 +1,6 @@
 {
   "name": "pfsc-pdf",
-  "version": "2.1.1",
+  "version": "3.0.0-dev",
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/plugin-transform-modules-commonjs": "^7.18.6",
