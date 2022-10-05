@@ -75,7 +75,6 @@ a.external {
 }
 
 #manualOpenInstructions {
-  display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
@@ -83,6 +82,8 @@ a.external {
   bottom: 0px;
   left: 0px;
   right: 0px;
+  overflow: auto;
+  padding-top: 3em
 }
 
 #manualOpenInstructions > div {
@@ -101,6 +102,10 @@ a.external {
 }
 
 #manualOpenInstructions > div > p.sidenote {
+  margin-bottom: 0;
+}
+
+#manualOpenInstructions > div > ol.sidenote {
   padding: 0 4em;
   font-size: medium;
 }
