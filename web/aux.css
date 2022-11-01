@@ -160,3 +160,21 @@ a.external {
   color: #525252;
   background-color: #dddddd;
 }
+
+.extIcon {
+  background-position: center left;
+  background-repeat: no-repeat;
+  padding: 10px;
+}
+
+.extIconChev {
+  background-image: url(./images/chev19.png);
+}
+
+.extIconPuzz {
+  background-image: url(./images/puzz19.png);
+}
+
+.extIconCube {
+  background-image: url(./images/cube19.png);
+}
