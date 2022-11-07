@@ -1,0 +1,114 @@
+{
+  "decisions": {
+    "1084896|babel-loader>loader-utils": {
+      "decision": "ignore",
+      "madeAt": 1667850799907
+    },
+    "1070286|wintersmith>highlight.js": {
+      "decision": "ignore",
+      "madeAt": 1667850807871
+    },
+    "1080920|wintersmith>npm>update-notifier>latest-version>package-json>got": {
+      "decision": "ignore",
+      "madeAt": 1667850813975
+    },
+    "1080920|wintersmith>npm>libnpx>update-notifier>latest-version>package-json>got": {
+      "decision": "ignore",
+      "madeAt": 1667850813975
+    },
+    "1081870|wintersmith>marked": {
+      "decision": "ignore",
+      "madeAt": 1667850821536
+    },
+    "1082529|wintersmith>marked": {
+      "decision": "ignore",
+      "madeAt": 1667850821536
+    },
+    "1084667|wintersmith>marked": {
+      "decision": "ignore",
+      "madeAt": 1667850821536
+    },
+    "1084668|wintersmith>marked": {
+      "decision": "ignore",
+      "madeAt": 1667850821536
+    },
+    "1081884|wintersmith>chokidar>glob-parent": {
+      "decision": "ignore",
+      "madeAt": 1667850824551
+    },
+    "1081884|gulp>glob-watcher>chokidar>glob-parent": {
+      "decision": "ignore",
+      "madeAt": 1667850824551
+    },
+    "1081884|vinyl-fs>glob-stream>glob-parent": {
+      "decision": "ignore",
+      "madeAt": 1667850824551
+    },
+    "1081884|gulp>vinyl-fs>glob-stream>glob-parent": {
+      "decision": "ignore",
+      "madeAt": 1667850824551
+    },
+    "1082383|wintersmith>pug": {
+      "decision": "ignore",
+      "madeAt": 1667850827116
+    },
+    "1084695|wintersmith>npm>cli-columns>string-width>strip-ansi>ansi-regex": {
+      "decision": "ignore",
+      "madeAt": 1667850829980
+    },
+    "1084695|wintersmith>npm>npm-audit-report>cli-table3>string-width>strip-ansi>ansi-regex": {
+      "decision": "ignore",
+      "madeAt": 1667850829980
+    },
+    "1084695|wintersmith>npm>update-notifier>boxen>ansi-align>string-width>strip-ansi>ansi-regex": {
+      "decision": "ignore",
+      "madeAt": 1667850829980
+    },
+    "1084695|wintersmith>npm>libnpx>update-notifier>boxen>ansi-align>string-width>strip-ansi>ansi-regex": {
+      "decision": "ignore",
+      "madeAt": 1667850829981
+    },
+    "1084696|wintersmith>npm>libnpx>yargs>string-width>strip-ansi>ansi-regex": {
+      "decision": "ignore",
+      "madeAt": 1667850829981
+    },
+    "1084765|wintersmith>npm>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835560
+    },
+    "1084765|wintersmith>npm>rimraf>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835561
+    },
+    "1084765|wintersmith>npm>fs-vacuum>rimraf>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835561
+    },
+    "1084765|wintersmith>npm>gentle-fs>fs-vacuum>rimraf>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835561
+    },
+    "1084765|wintersmith>npm>bin-links>gentle-fs>fs-vacuum>rimraf>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835561
+    },
+    "1084765|wintersmith>npm>libcipm>bin-links>gentle-fs>fs-vacuum>rimraf>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835561
+    },
+    "1084765|wintersmith>npm>libcipm>pacote>cacache>move-concurrently>copy-concurrently>rimraf>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835561
+    },
+    "1084765|wintersmith>npm>libcipm>pacote>make-fetch-happen>cacache>move-concurrently>copy-concurrently>rimraf>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835561
+    },
+    "1084765|wintersmith>npm>libcipm>pacote>npm-registry-fetch>make-fetch-happen>cacache>move-concurrently>copy-concurrently>rimraf>glob>minimatch": {
+      "decision": "ignore",
+      "madeAt": 1667850835561
+    }
+  },
+  "rules": {},
+  "version": 1
+}
