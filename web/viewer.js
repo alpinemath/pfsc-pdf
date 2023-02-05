@@ -98,6 +98,8 @@ function getViewerConfiguration() {
       lastPageButton: document.getElementById("lastPage"),
       pageRotateCwButton: document.getElementById("pageRotateCw"),
       pageRotateCcwButton: document.getElementById("pageRotateCcw"),
+      cursorEnrichmentsToolButton: document.getElementById("cursorEnrichmentsTool"),
+      cursorBoxSelectToolButton: document.getElementById("cursorBoxSelectTool"),
       cursorSelectToolButton: document.getElementById("cursorSelectTool"),
       cursorHandToolButton: document.getElementById("cursorHandTool"),
       scrollVerticalButton: document.getElementById("scrollVertical"),
