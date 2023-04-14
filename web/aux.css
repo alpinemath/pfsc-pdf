@@ -27,6 +27,10 @@
   margin-left: 6px;
 }
 
+.pfsc-ise-pdf #viewerContainer {
+  top: 64px;
+}
+
 .themeDark #URL {
   color: #222;
 }

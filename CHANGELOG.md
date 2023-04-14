@@ -4,6 +4,10 @@ Enhancements:
 
 * Add cursor tools for enrichments, and box select.
 
+Bug Fixes:
+
+* Repair some layout issues with the URL bar at top of display area.
+
 ## 3.1.1 (221202)
 
 * Add a release procedure, and begin publishing release branches.
