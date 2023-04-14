@@ -19,6 +19,8 @@ const CursorTool = {
   SELECT: 0, // The default value.
   HAND: 1,
   ZOOM: 2,
+  BOXSELECT: 3,
+  ENRICHMENTS: 4,
 };
 
 /**
@@ -34,7 +36,7 @@ class PDFCursorTools {
   /**
    * @param {PDFCursorToolsOptions} options
    */
-  constructor({ container, eventBus, cursorToolOnLoad = CursorTool.SELECT }) {
+  constructor({ container, eventBus, cursorToolOnLoad = CursorTool.ENRICHMENTS }) {
     this.container = container;
     this.eventBus = eventBus;
 
@@ -81,6 +83,16 @@ class PDFCursorTools {
         case CursorTool.HAND:
           this.handTool.deactivate();
           break;
+        case CursorTool.BOXSELECT:
+          this.container.classList.remove('boxSelectMode');
+          this.container.querySelectorAll('.selectionBox').forEach(box => box.remove());
+          break;
+        case CursorTool.ENRICHMENTS:
+          this.container.classList.remove('enrichmentsMode');
+          this.container.querySelectorAll('.hl-zone.selected').forEach(zone => {
+            zone.classList.remove('selected');
+          });
+          break;
         case CursorTool.ZOOM:
         /* falls through */
       }
@@ -94,6 +106,14 @@ class PDFCursorTools {
       case CursorTool.HAND:
         disableActiveTool();
         this.handTool.activate();
+        break;
+      case CursorTool.BOXSELECT:
+        disableActiveTool();
+        this.container.classList.add('boxSelectMode');
+        break;
+      case CursorTool.ENRICHMENTS:
+        disableActiveTool();
+        this.container.classList.add('enrichmentsMode');
         break;
       case CursorTool.ZOOM:
       /* falls through */

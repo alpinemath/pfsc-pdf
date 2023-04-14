@@ -1,6 +1,8 @@
 ## 3.2.0 (------)
 
-...
+Enhancements:
+
+* Add cursor tools for enrichments, and box select.
 
 ## 3.1.1 (221202)
 

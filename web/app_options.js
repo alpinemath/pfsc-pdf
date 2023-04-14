@@ -31,7 +31,8 @@ const OptionKind = {
 const defaultOptions = {
   cursorToolOnLoad: {
     /** @type {number} */
-    value: 0,
+    /** Note: for use in PISE, we want ENRICHMENTS as default, which is 4. */
+    value: 4,
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE,
   },
   defaultUrl: {

@@ -41,6 +41,10 @@ import { PDFSinglePageViewer } from "./pdf_single_page_viewer.js";
  *   clockwise.
  * @property {HTMLButtonElement} pageRotateCcwButton - Button to rotate the
  *   pages counterclockwise.
+ * @property {HTMLButtonElement} cursorEnrichmentsToolButton - Button to enable
+ *   the enrichments tool.
+ * @property {HTMLButtonElement} cursorBoxSelectToolButton - Button to enable
+ *   the box select tool.
  * @property {HTMLButtonElement} cursorSelectToolButton - Button to enable the
  *   select tool.
  * @property {HTMLButtonElement} cursorHandToolButton - Button to enable the
@@ -80,6 +84,18 @@ class SecondaryToolbar {
         element: options.pageRotateCcwButton,
         eventName: "rotateccw",
         close: false,
+      },
+      {
+        element: options.cursorEnrichmentsToolButton,
+        eventName: "switchcursortool",
+        eventDetails: { tool: CursorTool.ENRICHMENTS },
+        close: true,
+      },
+      {
+        element: options.cursorBoxSelectToolButton,
+        eventName: "switchcursortool",
+        eventDetails: { tool: CursorTool.BOXSELECT },
+        close: true,
       },
       {
         element: options.cursorSelectToolButton,
@@ -234,6 +250,14 @@ class SecondaryToolbar {
 
   _bindCursorToolsListener(buttons) {
     this.eventBus.on("cursortoolchanged", function({ tool }) {
+      buttons.cursorEnrichmentsToolButton.classList.toggle(
+        "toggled",
+        tool === CursorTool.ENRICHMENTS
+      );
+      buttons.cursorBoxSelectToolButton.classList.toggle(
+        "toggled",
+        tool === CursorTool.BOXSELECT
+      );
       buttons.cursorSelectToolButton.classList.toggle(
         "toggled",
         tool === CursorTool.SELECT

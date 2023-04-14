@@ -963,6 +963,14 @@ html[dir="rtl"] .secondaryToolbarButton > span {
   content: url(images/secondaryToolbarButton-rotateCw.png);
 }
 
+.secondaryToolbarButton.enrichmentsTool::before {
+  content: url(images/secondaryToolbarButton-enrichmentsTool.png);
+}
+
+.secondaryToolbarButton.boxSelectTool::before {
+  content: url(images/secondaryToolbarButton-boxSelectTool.png);
+}
+
 .secondaryToolbarButton.selectTool::before {
   content: url(images/secondaryToolbarButton-selectTool.png);
 }
@@ -1709,6 +1717,14 @@ html[dir='rtl'] #documentPropertiesOverlay .row > * {
 
   .secondaryToolbarButton.rotateCw::before {
     content: url(images/secondaryToolbarButton-rotateCw@2x.png);
+  }
+
+  .secondaryToolbarButton.enrichmentsTool::before {
+    content: url(images/secondaryToolbarButton-enrichmentsTool@2x.png);
+  }
+
+  .secondaryToolbarButton.boxSelectTool::before {
+    content: url(images/secondaryToolbarButton-boxSelectTool@2x.png);
   }
 
   .secondaryToolbarButton.selectTool::before {
